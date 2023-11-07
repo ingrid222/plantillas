@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar con Formulario</title>
+   
+  
+        /* Estilos para el sidebar */
+       /* .sidebar {
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            transition: left 0.3s;
+            padding: 20px;
+        }
+
+        
+        #openBtn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+        Estilos para el formulario */
+        #formulario {
+            display: none;
+            color: white;
+        }
+
+       /*
+    </style>
+*/
+<body>
+    <div class="sidebar" id="mySidebar">
+        <h2>Sidebar</h2>
+        <button onclick="closeNav()">Cerrar</button>
+        <div id="formulario">
+            <h3>Formulario</h3>
+            <!-- Aquí puedes agregar los campos del formulario -->
+        </div>
+
+        <form>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre"><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email"><br><br>
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+
+    <button id="openBtn" onclick="openNav()">Abrir Sidebar</button>
+
+    <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.left = "0";
+            document.getElementById("formulario").style.display = "block";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.left = "-250px";
+            document.getElementById("formulario").style.display = "none";
+        }
+    </script>
+</body>
+</html>

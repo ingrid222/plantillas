@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot Escolar</title>
+</head>
+<body>
+    <h1>Chatbot Escolar</h1>
+    <p>"escuela": ["Escuela de Educación Secundaria Técnica Nª5", "Manuel Nicolas Savio"],
+        "direccion": ["Calle 76 n°611 e/7 y 8, Villa Elvira, La Plata, Pcia. de Bs.As."],
+        "donde queda la escuela": ["Calle 76 n°611 e/7 y 8, Villa Elvira, La Plata, Pcia. de Bs.As."],
+        "direccion?": ["Calle 76 n°611 e/7 y 8, Villa Elvira, La Plata, Pcia. de Bs.As."],
+        "dirección?": ["Calle 76 n°611 e/7 y 8, Villa Elvira, La Plata, Pcia. de Bs.As."],
+        "especialidades": ["La Escuela Técnica N°5 ofrece las siguientes especialidades: - Maestro Mayor de Obras - Técnico electromecánico - Técnico en informática profesional y personal - Técnico químico"],
+        "correo": ["Correo electrónico: tecnica5delaplata@eest5.com"],
+        "default": ["No estoy seguro de entender completamente.", "Podrías reformular la pregunta?"],
+        "telefono": ["El telefono de la escuela es: 0221 452 1954"],
+        "teléfono": ["El telefono de la escuela es: 0221 452 1954"],
+        "que especialidades hay en la escuela?": ["Las especialidades son: quimica, electromecanica, informatica y construcciones"],
+        "que especialidades hay?": ["Las especialidades son: quimica, electromecanica, informatica y construcciones"],
+        "Especialidades": ["Las especialidades son: quimica, electromecanica, informatica y construcciones"],
+        "asignaturas?": ["Las especialidades son: quimica, electromecanica, informatica y construcciones"],
+        "asignatura": ["Las especialidades son: quimica, electromecanica, informatica y construcciones"],
+        "app de la escuela?": ["La app de la escuela se llama: Escuela Técnica 5 La Plata"],
+        "aplicacion":  ["La app de la escuela se llama: Escuela Técnica 5 La Plata"],
+        "app":  ["La app de la escuela se llama: Escuela Técnica 5 La Plata"],
+        "aplicacion de la escuela":  ["La app de la escuela se llama: Escuela Técnica 5 La Plata"],
+        "escuela": ["La escuela se llama: Escuela de Educación Tecnica N°5 - General Manuel N. Savio."],
+        "ayuda": ["Por supuesto, ¿en qué puedo ayudarte?", "Estoy aquí para vos."],
+        "default": ["No estoy seguro de entender completamente.", "Podrías reformular la pregunta?"],
+        "hola": ["Hola"],
+        "Hola": ["Hola"],
+        "chau": ["Chau"],
+        "Chau": ["Chau"],
+        "gracias": ["De nada"],
+        "Gracias": ["De nada"],
+        "saludos": ["Saludos"],
+        "Saludos": ["Saludos"],
+        "Buen día": ["Buen día"],
+        "buen día": ["Buen día"],
+        "buen dia": ["Buen día"],
+        "Buenas tardes": ["Buenas tardes"],
+        "buenas tardes": ["Buenas tardes"],
+        "buenas noches": ["Buenas noches"],
+        "Buenas noches": ["Buenas noches"]</p>
+    <div id="chat-container">
+        <div id="chat-box"></div>
+        <input type="text" id="user-input" placeholder="Escribe tu mensaje..." autocomplete="off">
+        <button id="send-button">Enviar</button>
+    </div>
+    
+    <script>
+        const chatBox = document.getElementById("chat-box");
+        const userInput = document.getElementById("user-input");
+        const sendButton = document.getElementById("send-button");
+
+        function scrollToBottom() {
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function addUserMessage(message) {
+            chatBox.innerHTML += `<div class="user-message">${message}</div>`;
+        }
+
+        function addChatbotMessage(message) {
+            chatBox.innerHTML += `<div class="chatbot-message">${message}</div>`;
+        }
+
+        function sendMessage() {
+            const message = userInput.value;
+            if (message.trim() !== "") {
+                addUserMessage(message);
+                scrollToBottom();
+                userInput.value = "";
+
+                fetch("/get_response", {
+                    method: "POST",
+                    body: new URLSearchParams({ user_input: message }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const chatbotResponse = data.response;
+                    addChatbotMessage(chatbotResponse);
+                    scrollToBottom();
+                });
+            }
+        }
+
+        sendButton.addEventListener("click", sendMessage);
+        userInput.addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #chat-container {
+            max-width: 400px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        #chat-box {
+            max-height: 300px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .user-message {
+            text-align: right;
+            margin-bottom: 5px;
+        }
+
+        .chatbot-message {
+            text-align: left;
+            margin-bottom: 5px;
+        }
+    </style>
+</body>
+</html>
